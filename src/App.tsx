@@ -21,12 +21,13 @@ function App() {
     <form onSubmit={handleSubmit} className="form-container">
       <h2>Login Form</h2>
       <div className="form-input">
-        <label htmlFor="email">Username</label>
+        <label htmlFor="email">Email</label>
         <input
           ref={emailRef}
           type="email"
           name="email"
           placeholder="Email..."
+          data-testid="email-input"
           required
         />
       </div>
@@ -36,6 +37,7 @@ function App() {
           ref={passwordRef}
           type="password"
           placeholder="Password..."
+          data-testid="password-input"
           required
         />
       </div>
