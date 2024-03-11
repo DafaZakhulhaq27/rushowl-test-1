@@ -1,9 +1,17 @@
 import "./App.css";
 import { useLoginForm } from "./hooks/login";
+import { MAX_LOGIN_ATTEMPT } from "./utils/constant";
 
 function App() {
-  const { currentPage, isLoading, handleSubmit, emailRef, passwordRef } =
-    useLoginForm();
+  const {
+    failedAttempts,
+    currentPage,
+    isLoading,
+    handleSubmit,
+    emailRef,
+    passwordRef,
+    isForbiddenLogin,
+  } = useLoginForm();
 
   if (currentPage === "home") {
     return <h1>Welcome Home !!!</h1>;
@@ -31,8 +39,15 @@ function App() {
           required
         />
       </div>
-      <button type="submit" disabled={isLoading}>
-        {isLoading ? "Loading" : "Submit"}
+      {!!failedAttempts && (
+        <span>Failed Attempts Left : {MAX_LOGIN_ATTEMPT - failedAttempts}</span>
+      )}
+      <button type="submit" disabled={isLoading || isForbiddenLogin}>
+        {isLoading
+          ? "Loading"
+          : isForbiddenLogin
+          ? "Login Attempt Exhausted"
+          : "Submit"}
       </button>
     </form>
   );
