@@ -10,9 +10,20 @@ export const useLoginForm = () => {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
+  const validateEmail = useCallback((email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }, []);
+
   const handleSubmit = useCallback(
     async (e: SyntheticEvent) => {
       e.preventDefault();
+
+      if (emailRef.current?.value && !validateEmail(emailRef.current?.value)) {
+        alert("Invalid Email");
+        return;
+      }
+
       setIsLoading(true);
       try {
         await fetcher.post("/auth/login", {
